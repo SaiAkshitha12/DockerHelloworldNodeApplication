@@ -1,17 +1,12 @@
 pipeline {
     agent any
-    
-    environment {
-        // Add Docker to the PATH
-        PATH = "${env.PATH};C:\\Program Files\\Docker\\Docker\\resources\\bin"
-    }
  
     stages {
         stage('Build') {
             steps {
                 script {
                     // Build the Docker image with the tag 'latest'
-                     'docker build -t myapplication:latest .'
+                    docker.build('my-app:latest')
                 }
             }
         }
@@ -20,9 +15,9 @@ pipeline {
             steps {
                 script {
                     // Run tests inside the Docker container
-                     '''
-                    docker run --rm myapplication:latest npm test
-                    '''  // or any other test command
+                    docker.image('my-app:latest').inside {
+                        sh 'npm test'  // or any other test command
+                    }
                 }
             }
         }
@@ -31,19 +26,18 @@ pipeline {
             steps {
                 script {
                     // Define the target image tag for the Docker registry
-                    def targetImage = 'chintalasaiakshitha12/myapplication:latest'
+                    def targetImage = 'abdurmohammed928/my-app:latest'
                     // Tag the built image with the target repository path and tag
-                     "docker tag myapplication:latest ${targetImage}"
+                    sh "docker tag my-app:latest ${targetImage}"
                     // Log in to Docker Hub (Ensure you have Docker Hub credentials configured)
                     withDockerRegistry([credentialsId: 'dockerhub', url: 'https://index.docker.io/v1/']) {
                         // Push the tagged image to the Docker registry
-                     "docker push ${targetImage}"
+                        sh "docker push ${targetImage}"
                     }
                 }
             }
         }
     }
-    
     // Cleanup workspace after the pipeline run
     post {
         always {

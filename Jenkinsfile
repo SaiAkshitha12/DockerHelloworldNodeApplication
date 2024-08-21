@@ -52,4 +52,8 @@ docker.image('my-app').push('my-dockerhub-username/my-app:latest')
 
 }
 
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> 9ec6817d44e72344fc3edbe601330bcf5fd3b379

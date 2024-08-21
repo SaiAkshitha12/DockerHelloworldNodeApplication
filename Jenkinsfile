@@ -6,7 +6,7 @@ pipeline {
             steps {
                 script {
                     // Build the Docker image with the tag 'latest'
-                    docker.build('my-app:latest')
+                    docker.build('myapplication:latest')
                 }
             }
         }
@@ -15,7 +15,7 @@ pipeline {
             steps {
                 script {
                     // Run tests inside the Docker container
-                    docker.image('my-app:latest').inside {
+                    docker.image('myapplication:latest').inside {
                         sh 'npm test'  // or any other test command
                     }
                 }
@@ -26,9 +26,9 @@ pipeline {
             steps {
                 script {
                     // Define the target image tag for the Docker registry
-                    def targetImage = 'abdurmohammed928/my-app:latest'
+                    def targetImage = 'chintalasaiakshitha12/myapplication:latest'
                     // Tag the built image with the target repository path and tag
-                    sh "docker tag my-app:latest ${targetImage}"
+                    sh "docker tag myapplication:latest ${targetImage}"
                     // Log in to Docker Hub (Ensure you have Docker Hub credentials configured)
                     withDockerRegistry([credentialsId: 'dockerhub', url: 'https://index.docker.io/v1/']) {
                         // Push the tagged image to the Docker registry

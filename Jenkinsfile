@@ -11,7 +11,7 @@ pipeline {
             steps {
                 script {
                     // Build the Docker image with the tag 'latest'
-                    powershell 'docker build -t myapplication:latest .'
+                     'docker build -t myapplication:latest .'
                 }
             }
         }
@@ -20,7 +20,7 @@ pipeline {
             steps {
                 script {
                     // Run tests inside the Docker container
-                    powershell '''
+                     '''
                     docker run --rm myapplication:latest npm test
                     '''  // or any other test command
                 }
@@ -33,11 +33,11 @@ pipeline {
                     // Define the target image tag for the Docker registry
                     def targetImage = 'chintalasaiakshitha12/myapplication:latest'
                     // Tag the built image with the target repository path and tag
-                    powershell "docker tag myapplication:latest ${targetImage}"
+                     "docker tag myapplication:latest ${targetImage}"
                     // Log in to Docker Hub (Ensure you have Docker Hub credentials configured)
                     withDockerRegistry([credentialsId: 'dockerhub', url: 'https://index.docker.io/v1/']) {
                         // Push the tagged image to the Docker registry
-                        powershell "docker push ${targetImage}"
+                     "docker push ${targetImage}"
                     }
                 }
             }

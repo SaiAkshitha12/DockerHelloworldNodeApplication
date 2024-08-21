@@ -6,7 +6,7 @@ pipeline {
             steps {
                 script {
                     // Build the Docker image with the tag 'latest'
-                    docker.build('myapplication:latest')
+                   sh docker.build('myapplication:latest')
                 }
             }
         }
